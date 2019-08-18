@@ -7,12 +7,14 @@ import { Close } from './Icon';
 import * as actions from './actions';
 import * as selectors from './selectors';
 
+import styles from './Notifications.module.css'
+
 const EDITION_URL = 'https://doc.rust-lang.org/edition-guide/';
 
 const Notifications: React.SFC = () => {
   return (
     <Portal>
-      <div className="notifications">
+      <div className={styles.container}>
         <Rust2018IsDefaultNotification />
       </div>
     </Portal>
@@ -39,9 +41,9 @@ interface NotificationProps {
 }
 
 const Notification: React.SFC<NotificationProps> = ({ onClose, children }) => (
-  <div className="notifications__notification">
-    <div className="notifications__notification-content">{children}</div>
-    <button className="notifications__close" onClick={onClose}><Close /></button>
+  <div className={styles.notification}>
+    <div className={styles.notificationContent}>{children}</div>
+    <button className={styles.close} onClick={onClose}><Close /></button>
   </div>
 );
 
