@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import State from './state';
 import { CommonEditorProps, Crate, Edition, Focus, PairCharacters } from './types';
 
+import styles from './Editor.module.css';
+
 type Ace = typeof import('ace-builds');
 type AceEditor = import('ace-builds').Ace.Editor;
 type AceCompleter = import('ace-builds').Ace.Completer;
@@ -268,7 +270,7 @@ const AdvancedEditor: React.SFC<AdvancedEditorProps> = props => {
   }, []));
 
   return (
-    <div className="editor-advanced" ref={child} />
+    <div className={styles.advanced} ref={child} />
   );
 };
 

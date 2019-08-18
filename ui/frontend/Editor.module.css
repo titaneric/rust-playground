@@ -1,0 +1,16 @@
+.container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.advanced {
+  composes: container;
+  composes: monospace from './typography.module.css';
+}
+
+.simple {
+  composes: container;
+  composes: monospace from './typography.module.css';
+  border: none;
+}

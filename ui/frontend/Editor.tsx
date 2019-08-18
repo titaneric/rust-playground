@@ -6,6 +6,8 @@ import AdvancedEditor from './AdvancedEditor';
 import { CommonEditorProps, Editor as EditorType } from './types';
 import { State } from './reducers';
 
+import styles from './Editor.module.css';
+
 class SimpleEditor extends React.PureComponent<CommonEditorProps> {
   private _editor: HTMLTextAreaElement;
 
@@ -21,7 +23,7 @@ class SimpleEditor extends React.PureComponent<CommonEditorProps> {
     return (
       <textarea
         ref={this.trackEditor}
-        className="editor-simple"
+        className={styles.simple}
         name="editor-simple"
         autoCapitalize="none"
         autoComplete="off"
@@ -73,13 +75,11 @@ const Editor: React.SFC = () => {
   const SelectedEditor = editor === EditorType.Simple ? SimpleEditor : AdvancedEditor;
 
   return (
-    <div className="editor">
-      <SelectedEditor code={code}
-        position={position}
-        crates={crates}
-        onEditCode={onEditCode}
-        execute={execute} />
-    </div>
+    <SelectedEditor code={code}
+      position={position}
+      crates={crates}
+      onEditCode={onEditCode}
+      execute={execute} />
   );
 };
 

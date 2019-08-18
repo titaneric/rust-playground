@@ -5,7 +5,7 @@ class Editor
   end
 
   def set(text)
-    page.within('.editor .ace_text-input', visible: :any) do
+    page.within('.ace_text-input', visible: :any) do
       page.execute_script <<~JS
         window.rustPlayground.setCode(#{text.to_json});
       JS
