@@ -1,0 +1,8 @@
+.code {
+  padding: 0 0.25em;
+  background: var(--menuCodeBgColor);
+}
+
+.aside {
+  composes: aside from './menu.module.css';
+}

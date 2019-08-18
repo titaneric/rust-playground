@@ -9,6 +9,11 @@ $border: 1px solid $border-color;
 
 $primary-font: 'Open Sans', sans-serif;
 
+:root {
+  --menuAsideColor: #888;
+  --menuCodeBgColor: #EEE;
+}
+
 // Modify normalized styles
 button,
 input,
@@ -703,18 +708,6 @@ $header-transition: 0.2s ease-in-out;
   &--selected &__checkmark,
   &--selected:hover &__checkmark {
     opacity: 1;
-  }
-}
-
-.build-menu {
-  &__code {
-    background: #EEE;
-    padding: 0 0.25em;
-  }
-
-  &__aside {
-    margin: 0.25em 0 0 0;
-    color: #888;
   }
 }
 
