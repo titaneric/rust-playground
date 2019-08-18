@@ -9,10 +9,17 @@ $border: 1px solid $border-color;
 
 $primary-font: 'Open Sans', sans-serif;
 
+$header-tint: #428bca;
+$header-main-border: #dedede;
+$header-accent-border: #bdbdbd;
+$header-border-radius: 4px;
+$header-transition: 0.2s ease-in-out;
+
 :root {
   --editorBorderColor: #{$border-color};
   --menuAsideColor: #888;
   --menuCodeBgColor: #EEE;
+  --headerMainBorderColor: #{$header-main-border};
 }
 
 // Modify normalized styles
@@ -359,12 +366,6 @@ body {
     }
 }
 
-$header-tint: #428bca;
-$header-main-border: #dedede;
-$header-accent-border: #bdbdbd;
-$header-border-radius: 4px;
-$header-transition: 0.2s ease-in-out;
-
 .header {
   display: flex;
   font-size: 12px;
@@ -516,31 +517,6 @@ $header-transition: 0.2s ease-in-out;
 
   button:enabled {
     cursor: pointer;
-  }
-}
-
-.menu-group {
-  width: 27em;
-  padding: 0.75em 1em 0 1em;
-
-  &:last-child {
-    padding-bottom: 0.75em;
-  }
-
-  line-height: normal;
-
-  &__title {
-    margin: 0;
-
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 11px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid $header-main-border;
-  }
-
-  &__content {
-    padding: 1em 0.25em;
   }
 }
 
