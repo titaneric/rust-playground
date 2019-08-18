@@ -15,37 +15,40 @@ import ToolsMenu from './ToolsMenu';
 import * as actions from './actions';
 import * as selectors from './selectors';
 
+import styles from './Header.module.css';
+
 const Header: React.SFC = () => (
-  <div className="header">
-    <HeaderSet id="build">
+  <div className={styles.container}>
+    <HeaderSet>
       <SegmentedButtonSet>
         <ExecuteButton />
         <BuildMenuButton />
       </SegmentedButtonSet>
     </HeaderSet>
-    <HeaderSet id="channel-mode">
+    <HeaderSet>
       <SegmentedButtonSet>
         <ModeMenuButton />
         <ChannelMenuButton />
         <AdvancedOptionsMenuButton />
       </SegmentedButtonSet>
     </HeaderSet>
-    <HeaderSet id="share">
+    <HeaderSet isSpacer />
+    <HeaderSet>
       <SegmentedButtonSet>
         <ShareButton />
       </SegmentedButtonSet>
     </HeaderSet>
-    <HeaderSet id="tools">
+    <HeaderSet>
       <SegmentedButtonSet>
         <ToolsMenuButton />
       </SegmentedButtonSet>
     </HeaderSet>
-    <HeaderSet id="config">
+    <HeaderSet>
       <SegmentedButtonSet>
         <ConfigMenuButton />
       </SegmentedButtonSet>
     </HeaderSet>
-    <HeaderSet id="help">
+    <HeaderSet>
       <SegmentedButtonSet>
         <HelpButton />
       </SegmentedButtonSet>
@@ -54,11 +57,11 @@ const Header: React.SFC = () => (
 );
 
 interface HeaderSetProps {
-  id: string;
+  isSpacer?: boolean;
 }
 
-const HeaderSet: React.SFC<HeaderSetProps> = ({ id, children }) => (
-  <div className={`header__set header__set--${id}`}>{children}</div>
+const HeaderSet: React.SFC<HeaderSetProps> = props => (
+  <div className={props.isSpacer ? styles.setSpacer : styles.set}>{props.children}</div>
 );
 
 const ExecuteButton: React.SFC = () => {

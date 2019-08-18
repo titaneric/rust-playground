@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  padding: 1.25em 0;
+  font-size: 12px;
+}
+
+.container button:enabled {
+  cursor: pointer;
+}
+
+.set {
+  margin-right: 0.5em;
+}
+
+.set:last-child {
+  margin-right: 0;
+}
+
+.setSpacer {
+  composes: set;
+  margin-right: auto;
+  margin-left: auto;
+}
