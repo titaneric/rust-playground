@@ -30,10 +30,16 @@ const productionFilenameTemplate = '[chunkhash]';
 
 module.exports = function(_, argv) {
   const isProduction = argv.mode === 'production';
+
   const filenameTemplate =
         isProduction ?
         productionFilenameTemplate :
         developmentFilenameTemplate;
+
+  const localIdentName =
+        isProduction ?
+        '[hash:base64]' :
+        '[path][name]__[local]--[hash:base64:5]';
 
   const devtool =
         isProduction ?
@@ -77,6 +83,21 @@ module.exports = function(_, argv) {
             "css-loader",
             "postcss-loader",
             "sass-loader",
+          ],
+        },
+        {
+          test: /\.module.css$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: "css-loader",
+              options: {
+                modules: {
+                  localIdentName,
+                },
+              },
+            },
+            "postcss-loader",
           ],
         },
         {
