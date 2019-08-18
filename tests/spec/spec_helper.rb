@@ -50,5 +50,7 @@ Capybara.default_max_wait_time = 5
 Capybara.automatic_label_click = true
 
 Capybara.modify_selector(:link_or_button) do
-  expression_filter(:build_button) {|xpath, name| xpath[XPath.css('.button-menu-item__name').contains(name)] }
+  expression_filter(:build_button) do |xpath, name|
+    xpath[XPath.css('[data-test-id="ButtonMenuItemName"]').contains(name)]
+  end
 end

@@ -530,35 +530,6 @@ body {
   }
 }
 
-@mixin menu-item-title {
-  font-size: 13px;
-  font-weight: 600;
-}
-
-@mixin full-menu-button {
-  @include button-reset;
-
-  width: 100%;
-  transition: color $header-transition;
-}
-
-.button-menu-item {
-  @include full-menu-button;
-
-  &:hover {
-    color: $header-tint;
-  }
-
-  &__name {
-    @include menu-item-title;
-    margin: 0;
-  }
-
-  &__description {
-    margin: 0;
-  }
-}
-
 .config-element {
   display: flex;
   align-items: center;

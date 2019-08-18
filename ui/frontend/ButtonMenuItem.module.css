@@ -1,0 +1,16 @@
+.container {
+  composes: full-button from './menu.module.css';
+}
+
+.container:hover {
+  color: var(--headerTintColor);
+}
+
+.name {
+  composes: item-title from './menu.module.css';
+  margin: 0;
+}
+
+.description {
+  margin: 0;
+}
