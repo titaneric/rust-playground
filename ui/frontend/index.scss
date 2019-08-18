@@ -20,6 +20,8 @@ $header-transition: 0.2s ease-in-out;
   --menuAsideColor: #888;
   --menuCodeBgColor: #EEE;
   --headerMainBorderColor: #{$header-main-border};
+  --headerTintColor: #{$header-tint};
+  --headerTransition: #{$header-transition};
 }
 
 // Modify normalized styles
@@ -554,49 +556,6 @@ body {
 
   &__description {
     margin: 0;
-  }
-}
-
-.selectable-item {
-  @include full-menu-button;
-
-  &__header {
-    display: flex;
-    align-items: center;
-  }
-
-  &__name {
-    @include menu-item-title;
-  }
-
-  &__description {
-    padding-left: 2em;
-  }
-
-  &:hover {
-    color: $header-tint;
-  }
-
-  &--selected {
-    font-weight: 600;
-    color: $header-tint;
-  }
-
-  &__checkmark {
-    margin-right: 0.5em;
-
-    opacity: 0;
-    transition: opacity 0.15s ease-in-out;
-  }
-
-  &:hover &__checkmark {
-    opacity: 0.5;
-    color: $header-tint;
-  }
-
-  &--selected &__checkmark,
-  &--selected:hover &__checkmark {
-    opacity: 1;
   }
 }
 

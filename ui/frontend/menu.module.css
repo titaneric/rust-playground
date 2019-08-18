@@ -1,3 +1,14 @@
+.full-button {
+  composes: reset from './button.module.css';
+  width: 100%;
+  transition: color var(--headerTransition);
+}
+
+.item-title {
+  font-weight: 600;
+  font-size: 13px;
+}
+
 .aside {
   margin: 0.25em 0 0 0;
   color: var(--menuAsideColor);

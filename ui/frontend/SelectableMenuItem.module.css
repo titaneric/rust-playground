@@ -1,0 +1,42 @@
+.container {
+  composes: full-button from './menu.module.css';
+}
+
+.container:hover {
+  color: var(--headerTintColor);
+}
+
+.checkmark {
+  margin-right: 0.5em;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+}
+
+.containerSelected {
+  composes: container;
+  color: var(--headerTintColor);
+  font-weight: 600;
+}
+
+.containerSelected .checkmark,
+.containerSelected:hover .checkmark {
+  opacity: 1;
+}
+
+.container:hover .checkmark {
+  color: var(--headerTintColor);
+  opacity: 0.5;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.name {
+  composes: item-title from './menu.module.css';
+}
+
+.description {
+  padding-left: 2em;
+}
