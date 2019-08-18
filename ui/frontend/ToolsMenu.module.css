@@ -1,0 +1,3 @@
+.aside {
+  composes: aside from './menu.module.css';
+}

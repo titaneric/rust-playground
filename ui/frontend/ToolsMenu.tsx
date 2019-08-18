@@ -7,6 +7,8 @@ import MenuGroup from './MenuGroup';
 import * as selectors from './selectors';
 import * as actions from './actions';
 
+import styles from './ToolsMenu.module.css';
+
 interface ToolsMenuProps {
   close: () => void;
 }
@@ -39,13 +41,13 @@ const ToolsMenu: React.SFC<ToolsMenuProps> = props => {
         name="Rustfmt"
         onClick={format}>
         <div>Format this code with Rustfmt.</div>
-        <div className="tools-menu__aside">{rustfmtVersion} ({rustfmtVersionDetails})</div>
+        <div className={styles.aside}>{rustfmtVersion} ({rustfmtVersionDetails})</div>
       </ButtonMenuItem>
       <ButtonMenuItem
         name="Clippy"
         onClick={clippy}>
         <div>Catch common mistakes and improve the code using the Clippy linter.</div>
-        <div className="tools-menu__aside">{clippyVersion} ({clippyVersionDetails})</div>
+        <div className={styles.aside}>{clippyVersion} ({clippyVersionDetails})</div>
       </ButtonMenuItem>
       <ButtonMenuItem
         name="Miri"
@@ -54,7 +56,7 @@ const ToolsMenu: React.SFC<ToolsMenuProps> = props => {
           Execute this program in the Miri interpreter to detect certain
           cases of undefined behavior (like out-of-bounds memory access).
         </div>
-        <div className="tools-menu__aside">{miriVersion} ({miriVersionDetails})</div>
+        <div className={styles.aside}>{miriVersion} ({miriVersionDetails})</div>
       </ButtonMenuItem>
     </MenuGroup>
   );
