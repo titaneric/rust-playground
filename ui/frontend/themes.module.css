@@ -1,0 +1,39 @@
+.default {
+}
+
+.dark {
+  --borderColor: #000;
+  --configCheckedColor: #000;
+  --configHoverBgColor: #f0f;
+  --configLabelColor: #fcf;
+  --editorBorderColor: #000;
+  --headerMainBorderColor: #99f;
+  --headerTintColor: #0ff;
+  --helpBgColor: #000;
+  --helpCodeBgColor: #111;
+  --helpHeaderLinkColor: white;
+  --helpLoadExampleBgColor: rgba(0, 0, 0, 0.8);
+  --menuAsideColor: #000;
+  --menuCodeBgColor: #000;
+  --notificationBgColor: #000;
+  --notificationBorderColor: #f0f;
+  --notificationCloseBgColor: #ff0;
+  --outputBackgroundTabColor: #0f0;
+  --outputCurrentTabColor: #f00;
+  --segmentedButtonActiveBorderBottomColor: #d6d;
+  --segmentedButtonActiveBorderTopColor: #bab;
+  --segmentedButtonBorderColor: #6f4;
+  --segmentedButtonBuildBgColor: #6f6;
+  --segmentedButtonBuildColor: #ccc;
+  --segmentedButtonBuildHoverBgColor: ##0cf;
+  --segmentedButtonColor: #66f;
+  --segmentedButtonDarkBgColor2: #fcc;
+  --segmentedButtonDarkBgColor: #f6f;
+  --segmentedButtonHoverColor: #6ff;
+  --segmentedButtonLightBgColor2: #f3f;
+  --segmentedButtonLightBgColor: #ff6;
+  --popButtonColor: #ddd;
+  --popButtonBgColor: #111;
+  --popButtonVerticalBorderColor: #050505;
+  --popButtonBottomBorderColor: #0f0f00;
+}

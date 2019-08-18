@@ -15,6 +15,7 @@ import {
   Orientation,
   PairCharacters,
   ProcessAssembly,
+  PlaygroundTheme,
 } from './types';
 
 interface ConfigMenuProps {
@@ -24,6 +25,7 @@ interface ConfigMenuProps {
 const ConfigMenu: React.SFC<ConfigMenuProps> = () => {
   const keybinding = useSelector((state: State) => state.configuration.keybinding);
   const theme = useSelector((state: State) => state.configuration.theme);
+  const playgroundTheme = useSelector((state: State) => state.configuration.playgroundTheme);
   const orientation = useSelector((state: State) => state.configuration.orientation);
   const editorStyle = useSelector((state: State) => state.configuration.editor);
   const pairCharacters = useSelector((state: State) => state.configuration.pairCharacters);
@@ -33,6 +35,7 @@ const ConfigMenu: React.SFC<ConfigMenuProps> = () => {
 
   const dispatch = useDispatch();
   const changeTheme = useCallback((t) => dispatch(actions.changeTheme(t)), [dispatch]);
+  const changePlaygroundTheme = useCallback((t) => dispatch(actions.changePlaygroundTheme(t)), [dispatch]);
   const changeKeybinding = useCallback((k) => dispatch(actions.changeKeybinding(k)), [dispatch]);
   const changeOrientation = useCallback((o) => dispatch(actions.changeOrientation(o)), [dispatch]);
   const changeEditorStyle = useCallback((e) => dispatch(actions.changeEditor(e)), [dispatch]);
@@ -82,6 +85,15 @@ const ConfigMenu: React.SFC<ConfigMenuProps> = () => {
       </MenuGroup>
 
       <MenuGroup title="UI">
+        <SelectConfig
+          name="Theme"
+          value={playgroundTheme}
+          onChange={changePlaygroundTheme}
+        >
+          <option value={PlaygroundTheme.Default}>Default</option>
+          <option value={PlaygroundTheme.Dark}>Dark</option>
+        </SelectConfig>
+
         <SelectConfig
           name="Orientation"
           value={orientation}

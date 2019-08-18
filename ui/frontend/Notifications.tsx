@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
-import { Portal } from 'react-portal';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Close } from './Icon';
+import Portal from './Portal';
 
 import * as actions from './actions';
 import * as selectors from './selectors';

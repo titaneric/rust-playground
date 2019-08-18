@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 
 import Editor from './Editor';
@@ -21,8 +21,9 @@ const Playground: React.SFC = () => {
   const focus = useSelector((state: State) => state.output.meta.focus);
   const splitOrientation = useSelector((state: State) => state.configuration.orientation);
 
+
   return (
-    <div>
+    <Fragment>
       <div className={styles.container}>
         <div>
           <Header />
@@ -37,7 +38,8 @@ const Playground: React.SFC = () => {
         </div>
       </div>
       {showNotifications && <Notifications />}
-    </div>
+      <div id="playground-portal" />
+    </Fragment>
   );
 };
 

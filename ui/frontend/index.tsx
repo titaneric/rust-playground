@@ -21,6 +21,7 @@ import {
 import { configureRustErrors } from './highlighting';
 import localStorage from './local_storage';
 import PageSwitcher from './PageSwitcher';
+import Theme from './Theme';
 import playgroundApp from './reducers';
 import { State } from './reducers';
 import Router from './Router';
@@ -63,9 +64,11 @@ window.rustPlayground = {
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router store={store} reducer={playgroundApp}>
-      <PageSwitcher />
-    </Router>
+    <Theme>
+      <Router store={store} reducer={playgroundApp}>
+        <PageSwitcher />
+      </Router>
+    </Theme>
   </Provider>,
   document.getElementById('playground'),
 );

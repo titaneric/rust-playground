@@ -27,6 +27,7 @@ import {
   PrimaryActionAuto,
   PrimaryActionCore,
   ProcessAssembly,
+  PlaygroundTheme,
 } from './types';
 
 const routes = {
@@ -60,6 +61,7 @@ export enum ActionType {
   ChangeEditor = 'CHANGE_EDITOR',
   ChangeKeybinding = 'CHANGE_KEYBINDING',
   ChangeTheme = 'CHANGE_THEME',
+  ChangePlaygroundTheme = 'CHANGE_PLAYGROUND_THEME',
   ChangePairCharacters = 'CHANGE_PAIR_CHARACTERS',
   ChangeOrientation = 'CHANGE_ORIENTATION',
   ChangeAssemblyFlavor = 'CHANGE_ASSEMBLY_FLAVOR',
@@ -126,6 +128,9 @@ export const changeKeybinding = (keybinding: string) =>
 
 export const changeTheme = (theme: string) =>
   createAction(ActionType.ChangeTheme, { theme });
+
+export const changePlaygroundTheme = (theme: PlaygroundTheme) =>
+  createAction(ActionType.ChangePlaygroundTheme, { theme });
 
 export const changePairCharacters = (pairCharacters: PairCharacters) =>
   createAction(ActionType.ChangePairCharacters, { pairCharacters });
@@ -734,6 +739,7 @@ export type Action =
   | ReturnType<typeof changePrimaryAction>
   | ReturnType<typeof changeProcessAssembly>
   | ReturnType<typeof changeTheme>
+  | ReturnType<typeof changePlaygroundTheme>
   | ReturnType<typeof requestExecute>
   | ReturnType<typeof receiveExecuteSuccess>
   | ReturnType<typeof receiveExecuteFailure>

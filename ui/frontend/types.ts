@@ -35,6 +35,11 @@ export enum PairCharacters {
   Disabled = 'disabled',
 }
 
+export enum PlaygroundTheme {
+  Default = 'default',
+  Dark = 'dark',
+}
+
 export enum Orientation {
   Automatic = 'automatic',
   Horizontal = 'horizontal',

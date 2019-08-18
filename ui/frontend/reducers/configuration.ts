@@ -12,12 +12,14 @@ import {
   PrimaryAction,
   PrimaryActionAuto,
   ProcessAssembly,
+  PlaygroundTheme,
 } from '../types';
 
 export interface State {
   editor: Editor;
   keybinding: string;
   theme: string;
+  playgroundTheme: PlaygroundTheme;
   pairCharacters: PairCharacters;
   orientation: Orientation;
   assemblyFlavor: AssemblyFlavor;
@@ -34,6 +36,7 @@ const DEFAULT: State = {
   editor: Editor.Advanced,
   keybinding: 'ace',
   theme: 'github',
+  playgroundTheme: PlaygroundTheme.Default,
   pairCharacters: PairCharacters.Enabled,
   orientation: Orientation.Automatic,
   assemblyFlavor: AssemblyFlavor.Att,
@@ -54,6 +57,8 @@ export default function configuration(state = DEFAULT, action: Action): State {
       return { ...state, keybinding: action.keybinding };
     case ActionType.ChangeTheme:
       return { ...state, theme: action.theme };
+    case ActionType.ChangePlaygroundTheme:
+      return { ...state, playgroundTheme: action.theme };
     case ActionType.ChangePairCharacters:
       return { ...state, pairCharacters: action.pairCharacters };
     case ActionType.ChangeOrientation:

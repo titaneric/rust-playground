@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { Manager, Popper, Reference } from 'react-popper';
-import { Portal } from 'react-portal';
+
+import Portal from './Portal';
 
 import styles from './PopButton.module.css';
 
