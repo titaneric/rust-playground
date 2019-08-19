@@ -1,0 +1,62 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.2em;
+}
+
+.containerFocused {
+  composes: container;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+@value typography: './typography.module.css';
+@value monospace-font-size, monospace-font-family from typography;
+
+.container code {
+  font-size: monospace-font-size;
+  font-family: monospace-font-family;
+}
+
+.tabs {
+  display: flex;
+}
+
+.tab {
+  flex: 1 1 auto;
+  line-height: 1.5em;
+  background-color: var(--outputBackgroundTabColor);
+  border: var(--border);
+  border-right: none;
+  cursor: pointer;
+}
+
+.tab:last-of-type {
+  border-right: var(--border);
+}
+
+.tabSelected {
+  composes: tab;
+  background-color: var(--outputCurrentTabColor);
+  border-bottom: none;
+  cursor: default;
+}
+
+.tabSelected:focus {
+  outline: none;
+}
+
+.tabClose {
+  composes: tab;
+  flex: 0 0 auto;
+}
+
+.body {
+  height: 100%;
+  padding: 0.5em;
+  overflow: scroll;
+  background-color: var(--outputCurrentTabColor);
+  border: var(--border);
+  border-top: none;
+}

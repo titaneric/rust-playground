@@ -1,0 +1,3 @@
+.addMain {
+  composes: as-link from '../button.module.css';
+}

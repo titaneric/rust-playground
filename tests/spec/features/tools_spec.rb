@@ -20,7 +20,7 @@ RSpec.feature "Using third-party Rust tools", type: :feature, js: true do
     editor.set code_with_lint_warnings
     in_tools_menu { click_on("Clippy") }
 
-    within(".output-stderr") do
+    within(:output, 'stderr') do
       expect(page).to have_content 'deny(clippy::eq_op)'
       expect(page).to have_content 'warn(clippy::zero_divided_by_zero)'
     end
@@ -41,7 +41,7 @@ RSpec.feature "Using third-party Rust tools", type: :feature, js: true do
     editor.set code_with_undefined_behavior
     in_tools_menu { click_on("Miri") }
 
-    within(".output-stderr") do
+    within(:output, 'stderr') do
       expect(page).to have_content %r{pointer must be in-bounds at offset 1, but is outside bounds of allocation \d+ which has size 0}
     end
   end

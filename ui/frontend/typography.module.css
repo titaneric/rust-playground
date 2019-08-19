@@ -1,8 +1,11 @@
+/* http://code.stephenmorley.org/html-and-css/fixing-browsers-broken-monospace-font-handling/ */
+
+/* ACE uses Monaco, Menlo, "Ubuntu Mono", Consolas, source-code-pro, monospace; */
+
+@value monospace-font-size: 0.9em;
+@value monospace-font-family: 'Source Code Pro', monospace;
+
 .monospace {
-  font-size: 0.9em;
-
-  /* http://code.stephenmorley.org/html-and-css/fixing-browsers-broken-monospace-font-handling/ */
-
-  /* ACE uses Monaco, Menlo, "Ubuntu Mono", Consolas, source-code-pro, monospace; */
-  font-family: 'Source Code Pro', monospace;
+  font-size: monospace-font-size;
+  font-family: monospace-font-family;
 }

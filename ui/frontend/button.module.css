@@ -7,3 +7,11 @@
   background-color: transparent; /* IE 11 */
   border: none;
 }
+
+.as-link {
+  composes: reset;
+  color: var(--linkColor);
+  text-decoration: underline;
+  cursor: pointer;
+  user-select: text;
+}

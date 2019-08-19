@@ -1,0 +1,21 @@
+.header {
+  display: flex;
+  color: var(--borderColor);
+  white-space: nowrap;
+}
+
+.header::before,
+.header::after {
+  flex: 1 1 auto;
+  margin: auto;
+  border-top: var(--border);
+  content: '';
+}
+
+.header::before {
+  margin-right: 2%;
+}
+
+.header::after {
+  margin-left: 2%;
+}

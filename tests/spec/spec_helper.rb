@@ -54,3 +54,7 @@ Capybara.modify_selector(:link_or_button) do
     xpath[XPath.css('[data-test-id="ButtonMenuItemName"]').contains(name)]
   end
 end
+
+Capybara.add_selector(:output) do
+  css { |kind| "[data-test-output='#{kind}']" }
+end

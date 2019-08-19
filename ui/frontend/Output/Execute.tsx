@@ -8,6 +8,8 @@ import { State } from '../reducers';
 import Section from './Section';
 import SimplePane from './SimplePane';
 
+import styles from './Execute.module.css';
+
 const Execute: React.SFC = () => {
   const details = useSelector((state: State) => state.output.execute);
   const isAutoBuild = useSelector(selectors.isAutoBuildSelector);
@@ -32,7 +34,7 @@ const Warning: React.SFC<WarningProps> = props => (
     {'\n'}
     but not run. If you’d like to execute your code, please
     {'\n'}
-    <button className="output-add-main" onClick={props.addMainFunction}>
+    <button className={styles.addMain} onClick={props.addMainFunction}>
       add a main function
     </button>
     .
