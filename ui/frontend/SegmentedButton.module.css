@@ -1,0 +1,77 @@
+.container {
+  display: flex;
+  align-items: center;
+  border-radius: var(--headerBorderRadius);
+  box-shadow: 0 2px 4px -2px rgba(0, 0, 0, 0.4), inset 0 1px 0 white;
+}
+
+.button {
+  composes: reset from './button.module.css';
+  color: var(--segmentedButtonColor);
+  background: linear-gradient(
+    var(--segmentedButtonLightBgColor),
+    var(--segmentedButtonDarkBgColor)
+  );
+  border: 1px solid var(--headerMainBorderColor);
+}
+
+.button:first-child {
+  border-top-left-radius: var(--headerBorderRadius);
+  border-bottom-left-radius: var(--headerBorderRadius);
+}
+
+.button:last-child {
+  border-top-right-radius: var(--headerBorderRadius);
+  border-bottom-right-radius: var(--headerBorderRadius);
+}
+
+.button:not(:first-child) {
+  border-left: none;
+}
+
+.button:not(:last-child) {
+  border-right: 1px solid var(--headerMainBorderColor);
+}
+
+.button:hover {
+  color: var(--segmentedButtonHoverColor);
+  background: linear-gradient(
+    var(--segmentedButtonLightBgColor),
+    var(--segmentedButtonLightBgColor2)
+  );
+}
+
+.button:active {
+  background: linear-gradient(
+    var(--segmentedButtonDarkBgColor),
+    var(--segmentedButtonDarkBgColor2)
+  );
+  border-top-color: var(--segmentedButtonActiveBorderTopColor);
+  border-bottom-color: var(--segmentedButtonActiveBorderBottomColor);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.buildButton {
+  composes: button;
+  color: var(--segmentedButtonBuildColor);
+  background: var(--segmentedButtonBuildBgColor);
+  border-color: var(--segmentedButtonBorderColor);
+}
+
+.buildButton:not(:last-child) {
+  /* Silly specificity */
+  border-right-width: 0;
+}
+
+/* Lost the bold text */
+
+.buildButton:hover {
+  color: var(--segmentedButtonBuildColor);
+  background: var(--segmentedButtonBuildHoverBgColor);
+}
+
+.buildButton:active {
+  background: var(--segmentedButtonBuildHoverBgColor);
+  border-top-color: var(--segmentedButtonBuildHoverBgColor);
+  border-bottom-color: var(--segmentedButtonBuildHoverBgColor);
+}

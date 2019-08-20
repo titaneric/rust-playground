@@ -6,15 +6,17 @@ interface HeaderButtonProps {
   icon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   isExpandable?: boolean;
+  isBuild?: boolean;
 }
 
-const HeaderButton: React.SFC<HeaderButtonProps> = ({ icon, rightIcon, isExpandable, children }) => {
+const HeaderButton: React.SFC<HeaderButtonProps> = ({ icon, rightIcon, isExpandable, isBuild, children }) => {
   const c = ['header-button'];
 
   if (icon) { c.push('header-button--has-left-icon'); }
   if (rightIcon) { c.push('header-button--has-right-icon'); }
   if (isExpandable) { c.push('header-button--expandable'); }
   if ((icon || rightIcon) && !isExpandable && !children) { c.push('header-button--icon-only'); }
+  if (isBuild) { c.push('header-button--is-build'); }
 
   return (
     <div className={c.join(' ')}>
