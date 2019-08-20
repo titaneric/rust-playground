@@ -4,6 +4,7 @@ module.exports = {
     '@typescript-eslint',
     'react',
     'react-hooks',
+    'css-modules',
   ],
   settings: {
     react: {
@@ -13,6 +14,7 @@ module.exports = {
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
+    'plugin:css-modules/recommended',
   ],
   rules:  {
     'comma-dangle': ['error', 'always-multiline'],
