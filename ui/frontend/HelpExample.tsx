@@ -6,6 +6,8 @@ import { PrismCode } from 'react-prism';
 
 import * as actions from './actions';
 
+import styles from './HelpExample.module.css';
+
 export interface HelpExampleProps {
   code: string;
 }
@@ -18,14 +20,16 @@ const HelpExample: React.SFC<HelpExampleProps> = ({ code }) => {
   );
 
   return (
-    <pre className="help__example">
-      <button className="help__load_example" onClick={showExample}>
-        Load in playground
-      </button>
-      <PrismCode className="language-rust">
-        {code}
-      </PrismCode>
-    </pre>
+    <div className="help-example-code">
+      <pre className={`${styles.container} help-example-code`}>
+        <button className={styles.load} onClick={showExample}>
+          Load in playground
+        </button>
+        <PrismCode className="language-rust">
+          {code}
+        </PrismCode>
+      </pre>
+    </div>
   );
 };
 
