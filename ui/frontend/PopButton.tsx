@@ -2,6 +2,8 @@ import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { Manager, Popper, Reference } from 'react-popper';
 import { Portal } from 'react-portal';
 
+import styles from './PopButton.module.css';
+
 interface NewPopProps {
   Button: React.ComponentType<{
     toggle: () => void;
@@ -42,17 +44,17 @@ const PopButton: React.SFC<NewPopProps> = ({ Button, Menu }) => {
         <Popper placement="bottom" modifiers={{ computeStyle: { gpuAcceleration: false } }}>
           {({ ref, style, arrowProps, placement }) => (
             <div
-              className="popper"
+              className={styles.container}
               ref={(r) => { ref(r); menuRef.current = r; }}
               style={style}
               data-placement={placement}
             >
               <div
-                className="popper__arrow"
+                className={styles.arrow}
                 ref={arrowProps.ref}
                 style={arrowProps.style}
               />
-              <div className="popper__content">
+              <div className={styles.content}>
                 <Menu close={close} />
               </div>
             </div>

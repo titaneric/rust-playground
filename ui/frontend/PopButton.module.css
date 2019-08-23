@@ -1,0 +1,40 @@
+@value arrow-size: 10px;
+
+.container {
+  /*
+    Prevents the popper from shifting when adding it to the DOM;
+    triggers showing the scrollbars.
+
+    https://github.com/FezVrasta/popper.js/issues/457#issuecomment-367692177
+  */
+  top: 0;
+  z-index: 10;
+  font-size: 12px;
+}
+
+.container button:enabled {
+  cursor: pointer;
+}
+
+.arrow {
+  position: absolute;
+  margin: arrow-size;
+  border: arrow-size solid transparent;
+}
+
+.container[data-placement^='bottom'] .arrow {
+  margin-top: 0;
+  border-top-width: 0;
+  border-bottom-color: var(--popButtonBgColor);
+}
+
+.content {
+  margin: arrow-size;
+  color: var(--popButtonColor);
+  background: var(--popButtonBgColor);
+  border-right: 1px solid var(--popButtonVerticalBorderColor);
+  border-bottom: 1px solid var(--popButtonBottomBorderColor);
+  border-left: 1px solid var(--popButtonVerticalBorderColor);
+  border-radius: var(--headerBorderRadius);
+  box-shadow: 0 1px 4px -2px rgba(0, 0, 0, 0.6), inset 0 1px 0 white;
+}
