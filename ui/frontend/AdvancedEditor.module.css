@@ -1,0 +1,4 @@
+.advanced {
+  composes: container from './Editor.module.css';
+  composes: monospace from './typography.module.css';
+}

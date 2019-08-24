@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import State from './state';
 import { CommonEditorProps, Crate, Edition, Focus, PairCharacters } from './types';
 
-import styles from './Editor.module.css';
+import styles from './AdvancedEditor.module.css';
 
 type Ace = typeof import('ace-builds');
 type AceEditor = import('ace-builds').Ace.Editor;
