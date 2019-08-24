@@ -1,20 +1,5 @@
 @import "~normalize.css/normalize.css";
 
-$background: #E1E1DB;
-$rust: #AA4422;
-$selected-radio: desaturate(lighten($rust, 30%), 20%);
-$unselected-radio: lighten($selected-radio, 20%);
-$border-color: #BBBBBB;
-$border: 1px solid $border-color;
-
-$primary-font: 'Open Sans', sans-serif;
-
-$header-tint: #428bca;
-$header-main-border: #dedede;
-$header-accent-border: #bdbdbd;
-$header-border-radius: 4px;
-$header-transition: 0.2s ease-in-out;
-
 :root {
   --borderColor: #BBBBBB;
   --borderStyle: solid;
@@ -22,11 +7,11 @@ $header-transition: 0.2s ease-in-out;
   --configCheckedColor: #fff;
   --configHoverBgColor: hsla(208, 100%, 43%, 0.1);
   --configLabelColor: #777;
-  --editorBorderColor: #{$border-color};
-  --headerBorderRadius: #{$header-border-radius};
-  --headerMainBorderColor: #{$header-main-border};
-  --headerTintColor: #{$header-tint};
-  --headerTransition: #{$header-transition};
+  --editorBorderColor: #BBBBBB;
+  --headerBorderRadius: 4px;
+  --headerMainBorderColor: #dedede;
+  --headerTintColor: #428bca;
+  --headerTransition: 0.2s ease-in-out;
   --helpBgColor: #fff;
   --helpCodeBgColor: #EEE;
   --helpHeaderLinkColor: black;
@@ -39,16 +24,20 @@ $header-transition: 0.2s ease-in-out;
   --notificationCloseBgColor: #e1e1db;
   --outputBackgroundTabBgColor: #{desaturate(#f9ffff, 100%)};
   --outputCurrentTabBgColor: #f9ffff;
+  --pageBgColor: #E1E1DB;
+  --pageFont: 'Open Sans', sans-serif;
   --popButtonBgColor: white;
-  --popButtonBottomBorderColor: #{$header-accent-border};
+  --popButtonBottomBorderColor: #bdbdbd;
   --popButtonColor: #222;
   --popButtonInsetShadowColor: white;
   --popButtonShadowColor: rgba(0, 0, 0, 0.6);
   --popButtonVerticalBorderColor: #cacaca;
+  --rustErrorsErrorColor: #bf1b1b;
+  --rustErrorsWarningColor: #f79a06;
   --segmentedButtonActiveBorderBottomColor: #d6d6d6;
   --segmentedButtonActiveBorderTopColor: #bababa;
   --segmentedButtonBorderColor: hsl(15, 66.7%, 32%);
-  --segmentedButtonBuildBgColor: #{$rust};
+  --segmentedButtonBuildBgColor: #AA4422;
   --segmentedButtonBuildColor: white;
   --segmentedButtonBuildHoverBgColor: #80331a;
   --segmentedButtonColor: #444;
@@ -65,100 +54,33 @@ input,
 optgroup,
 select,
 textarea {
-    font-family: $primary-font;
+  font-family: var(--pageFont);
 }
 
 html {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
-*, *:before, *:after {
-    box-sizing: inherit;
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 
 body {
-    background-color: $background;
-    padding: 0 1em;
-    font-family: $primary-font;
-}
-
-.configuration {
-    position: relative;
-    width: 100%;
-    height: 100%;
-
-    &-item {
-        display: flex;
-        margin-bottom: 0.5em;
-    }
-
-    &-label {
-        flex: 1 1 100%;
-    }
-
-    &-value {
-        flex: 1 1 100%;
-    }
-
-    &-actions {
-        right: 0;
-        bottom: 0;
-        position: absolute;
-    }
-}
-
-.drop {
-    &__toggle {
-        font-size: 50%;
-        height: 100%;
-    }
-
-    &__menu {
-        display: none;
-
-        position: absolute;
-        top: 90%;
-        left: 0;
-        z-index: 10;
-
-        margin: 0;
-        padding: 0;
-
-        border: $border;
-        box-shadow: 0.5px 0.5px 10px 1px rgba(0, 0, 0, 0.2);
-
-        &--open {
-            display: inherit;
-        }
-    }
-
-    &__menu-item {
-        list-style: none;
-        white-space: nowrap;
-        border-bottom: $border;
-        &:last-child {
-            border-bottom: none;
-        }
-    }
-
-    &__button {
-        width: 100%;
-        background: white;
-        border: none;
-        cursor: pointer;
-        text-align: left;
-        &:hover {
-            background-color: darken(white, 10%);
-        }
-    }
+  background-color: var(--pageBgColor);
+  padding: 0 1em;
+  font-family: var(--pageFont);
 }
 
 .language-rust_errors {
-    .warning {
-        color: #f79a06;
-    }
-    .error {
-        color: #bf1b1b;
-    }
+  .warning {
+    color: var(--rustErrorsWarningColor);
+  }
+
+  .error {
+    color: var(--rustErrorsErrorColor)
+  }
 }
 
 .help-example-code {
