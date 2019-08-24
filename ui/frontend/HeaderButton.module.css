@@ -1,0 +1,51 @@
+.container {
+  display: flex;
+  align-items: center;
+  height: 3em;
+  padding: 0 1.25em;
+  font-weight: 600;
+  white-space: nowrap;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.isExpandable {
+  composes: container;
+  padding-right: 1em;
+}
+
+.hasLeftIcon {
+  composes: container;
+  padding-left: 1em;
+}
+
+.hasRightIcon {
+  composes: container;
+  padding-right: 1em;
+}
+
+.isIconOnly {
+  composes: container;
+  padding: 0 0.75em;
+}
+
+.isBuild {
+  composes: container;
+  font-weight: 700;
+}
+
+.leftIcon {
+  margin-right: 0.5em;
+}
+
+.isIconOnly .leftIcon {
+  margin-right: 0;
+}
+
+.drop {
+  margin-left: 0.75em;
+}
+
+.rightIcon {
+  margin-left: 0.75em;
+}
