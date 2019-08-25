@@ -55,7 +55,7 @@
   composes: button;
   color: var(--segmentedButtonBuildColor);
   background: var(--segmentedButtonBuildBgColor);
-  border-color: var(--segmentedButtonBorderColor);
+  border-color: var(--segmentedButtonBuildBorderColor);
 }
 
 .buildButton:not(:last-child) {
