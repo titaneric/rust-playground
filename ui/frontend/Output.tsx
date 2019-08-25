@@ -64,9 +64,12 @@ const Output: React.SFC = () => {
     return null;
   }
 
+  let focusClass = '';
   let close = null;
   let body = null;
   if (focus) {
+    focusClass = 'output--focused';
+
     close = (
       <button className="output-tab output-tab-close"
         onClick={focusClose}>Close</button>
@@ -88,7 +91,7 @@ const Output: React.SFC = () => {
   }
 
   return (
-    <div className="output">
+    <div className={`output ${focusClass}`}>
       <div className="output-tabs">
         <Tab kind={Focus.Execute} focus={focus}
           label="Execution"
