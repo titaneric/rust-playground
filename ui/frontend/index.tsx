@@ -17,6 +17,7 @@ import {
   performCratesLoad,
   performVersionsLoad,
   reExecuteWithBacktrace,
+  changeScreenIs1600Px,
 } from './actions';
 import { configureRustErrors } from './highlighting';
 import localStorage from './local_storage';
@@ -28,8 +29,12 @@ import Router from './Router';
 import sessionStorage from './session_storage';
 
 const baseUrl = url.resolve(window.location.href, '/');
+const windowWidth = window.matchMedia('screen and (min-width: 1600px)');
 
 const initialGlobalState = {
+  configuration: {
+    screenIs1600Px: windowWidth.matches,
+  },
   globalConfiguration: {
     baseUrl,
   },
@@ -55,6 +60,10 @@ configureRustErrors({
 
 store.dispatch(performCratesLoad());
 store.dispatch(performVersionsLoad());
+
+windowWidth.addEventListener('change', v => {
+  store.dispatch(changeScreenIs1600Px(v.matches));
+});
 
 window.rustPlayground = {
   setCode: code => {

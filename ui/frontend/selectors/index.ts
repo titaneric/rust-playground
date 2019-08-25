@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import * as url from 'url';
 
 import { State } from '../reducers';
-import { Backtrace, Channel, Edition, PrimaryActionAuto, PrimaryActionCore } from '../types';
+import { Backtrace, Channel, Edition, PrimaryActionAuto, PrimaryActionCore, Orientation } from '../types';
 
 const codeSelector = (state: State) => state.code;
 
@@ -277,3 +277,15 @@ export const formatRequestSelector = createSelector(
   editionSelector,
   (code, edition) => ({ code, edition }),
 );
+
+export const orientation = createSelector(
+  (state: State) => state.configuration.orientation,
+  (state: State) => state.configuration.screenIs1600Px,
+  (orientation, screenIs1600Px): Orientation.Horizontal | Orientation.Vertical => {
+    if (orientation === Orientation.Automatic) {
+      return screenIs1600Px ? Orientation.Vertical : Orientation.Horizontal;
+    } else {
+      return orientation;
+    }
+  }
+)

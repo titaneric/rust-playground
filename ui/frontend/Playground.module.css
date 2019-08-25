@@ -45,40 +45,6 @@
   margin-left: 0;
 }
 
-.splitAutomatic {
-  composes: splitHorizontal;
-}
-
-@media screen and (min-width: 1600px) {
-  .splitAutomatic {
-    flex-direction: row;
-  }
-
-  .splitAutomatic > * {
-    /*
-      This disables the extra margin-top for the spacing between editor
-      and output in the horizontal split mode.
-
-      FIXME: remove this when the output-rules are 'aware' of the
-      orientation.
-    */
-    margin-top: -0.2em;
-
-    /* for the border of the editor */
-    margin-bottom: 4px;
-
-    /* space between the split */
-    margin-left: 0.5em;
-  }
-
-  .splitAutomatic > *:first-child {
-    /* the first child, i.e. the editor has the border already */
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-  }
-}
-
 .editor {
   position: relative;
   flex: 1 1 auto;

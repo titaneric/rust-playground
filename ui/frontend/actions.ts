@@ -64,6 +64,7 @@ export enum ActionType {
   ChangePlaygroundTheme = 'CHANGE_PLAYGROUND_THEME',
   ChangePairCharacters = 'CHANGE_PAIR_CHARACTERS',
   ChangeOrientation = 'CHANGE_ORIENTATION',
+  ChangeScreenIs1600Px = 'CHANGE_SCREEN_IS_1600_PX',
   ChangeAssemblyFlavor = 'CHANGE_ASSEMBLY_FLAVOR',
   ChangePrimaryAction = 'CHANGE_PRIMARY_ACTION',
   ChangeChannel = 'CHANGE_CHANNEL',
@@ -137,6 +138,9 @@ export const changePairCharacters = (pairCharacters: PairCharacters) =>
 
 export const changeOrientation = (orientation: Orientation) =>
   createAction(ActionType.ChangeOrientation, { orientation });
+
+export const changeScreenIs1600Px = (screenIs1600Px: boolean) =>
+  createAction(ActionType.ChangeScreenIs1600Px, { screenIs1600Px });
 
 export const changeAssemblyFlavor = (assemblyFlavor: AssemblyFlavor) =>
   createAction(ActionType.ChangeAssemblyFlavor, { assemblyFlavor });
@@ -736,6 +740,7 @@ export type Action =
   | ReturnType<typeof changeKeybinding>
   | ReturnType<typeof changeMode>
   | ReturnType<typeof changeOrientation>
+  | ReturnType<typeof changeScreenIs1600Px>
   | ReturnType<typeof changePrimaryAction>
   | ReturnType<typeof changeProcessAssembly>
   | ReturnType<typeof changeTheme>

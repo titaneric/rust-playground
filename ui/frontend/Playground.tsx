@@ -11,7 +11,6 @@ import { Orientation } from './types';
 
 import styles from './Playground.module.css';
 const orientationMap = {
-  [Orientation.Automatic]: styles.splitAutomatic,
   [Orientation.Horizontal]: styles.splitHorizontal,
   [Orientation.Vertical]: styles.splitVertical,
 };
@@ -19,7 +18,7 @@ const orientationMap = {
 const Playground: React.SFC = () => {
   const showNotifications = useSelector(selectors.anyNotificationsToShowSelector);
   const focus = useSelector((state: State) => state.output.meta.focus);
-  const splitOrientation = useSelector((state: State) => state.configuration.orientation);
+  const splitOrientation = useSelector(selectors.orientation);
 
 
   return (

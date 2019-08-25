@@ -22,6 +22,7 @@ export interface State {
   playgroundTheme: PlaygroundTheme;
   pairCharacters: PairCharacters;
   orientation: Orientation;
+  screenIs1600Px: boolean;
   assemblyFlavor: AssemblyFlavor;
   demangleAssembly: DemangleAssembly;
   processAssembly: ProcessAssembly;
@@ -39,6 +40,7 @@ const DEFAULT: State = {
   playgroundTheme: PlaygroundTheme.Default,
   pairCharacters: PairCharacters.Enabled,
   orientation: Orientation.Automatic,
+  screenIs1600Px: false,
   assemblyFlavor: AssemblyFlavor.Att,
   demangleAssembly: DemangleAssembly.Demangle,
   processAssembly: ProcessAssembly.Filter,
@@ -63,6 +65,8 @@ export default function configuration(state = DEFAULT, action: Action): State {
       return { ...state, pairCharacters: action.pairCharacters };
     case ActionType.ChangeOrientation:
       return { ...state, orientation: action.orientation };
+    case ActionType.ChangeScreenIs1600Px:
+      return { ...state, screenIs1600Px: action.screenIs1600Px };
     case ActionType.ChangeAssemblyFlavor:
       return { ...state, assemblyFlavor: action.assemblyFlavor };
     case ActionType.ChangeDemangleAssembly:
