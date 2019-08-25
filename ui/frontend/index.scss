@@ -54,7 +54,15 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: var(--pageFont);
+  font-family: inherit;
+}
+
+button,
+input,
+optgroup,
+textarea {
+  background-color: inherit;
+  color: inherit;
 }
 
 html {
