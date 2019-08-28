@@ -8,7 +8,7 @@
 .header::after {
   flex: 1 1 auto;
   margin: auto;
-  border-top: var(--border);
+  border-top: 1px solid var(--borderColor);
   content: '';
 }
 

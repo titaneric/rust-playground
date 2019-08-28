@@ -27,13 +27,13 @@
   flex: 1 1 auto;
   line-height: 1.5em;
   background-color: var(--outputBackgroundTabBgColor);
-  border: var(--border);
+  border: 1px solid var(--borderColor);
   border-right: none;
   cursor: pointer;
 }
 
 .tab:last-of-type {
-  border-right: var(--border);
+  border-right: 1px solid var(--borderColor);
 }
 
 .tabSelected {
@@ -57,6 +57,6 @@
   padding: 0.5em;
   overflow: scroll;
   background-color: var(--outputCurrentTabBgColor);
-  border: var(--border);
+  border: 1px solid var(--borderColor);
   border-top: none;
 }

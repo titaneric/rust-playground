@@ -16,8 +16,9 @@ $header-border-radius: 4px;
 $header-transition: 0.2s ease-in-out;
 
 :root {
-  --border: 1px solid var(--borderColor);
   --borderColor: #BBBBBB;
+  --borderStyle: solid;
+  --borderWidth: 1px;
   --editorBorderColor: #{$border-color};
   --headerMainBorderColor: #{$header-main-border};
   --headerTintColor: #{$header-tint};
