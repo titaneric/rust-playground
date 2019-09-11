@@ -26,7 +26,7 @@
 .tab {
   flex: 1 1 auto;
   line-height: 1.5em;
-  background-color: var(--outputBackgroundTabColor);
+  background-color: var(--outputBackgroundTabBgColor);
   border: var(--border);
   border-right: none;
   cursor: pointer;
@@ -38,7 +38,7 @@
 
 .tabSelected {
   composes: tab;
-  background-color: var(--outputCurrentTabColor);
+  background-color: var(--outputCurrentTabBgColor);
   border-bottom: none;
   cursor: default;
 }
@@ -56,7 +56,7 @@
   height: 100%;
   padding: 0.5em;
   overflow: scroll;
-  background-color: var(--outputCurrentTabColor);
+  background-color: var(--outputCurrentTabBgColor);
   border: var(--border);
   border-top: none;
 }

@@ -28,8 +28,8 @@ $header-transition: 0.2s ease-in-out;
   --notificationBgColor: #FFF;
   --notificationBorderColor: #428bca;
   --notificationCloseBgColor: #e1e1db;
-  --outputBackgroundTabColor: #{desaturate(#f9ffff, 100%)};
-  --outputCurrentTabColor: #f9ffff;
+  --outputBackgroundTabBgColor: #{desaturate(#f9ffff, 100%)};
+  --outputCurrentTabBgColor: #f9ffff;
 }
 
 // Modify normalized styles
