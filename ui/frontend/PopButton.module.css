@@ -36,5 +36,6 @@
   border-bottom: 1px solid var(--popButtonBottomBorderColor);
   border-left: 1px solid var(--popButtonVerticalBorderColor);
   border-radius: var(--headerBorderRadius);
-  box-shadow: 0 1px 4px -2px rgba(0, 0, 0, 0.6), inset 0 1px 0 white;
+  box-shadow: 0 1px 4px -2px var(--popButtonShadowColor),
+              inset 0 1px 0 var(--popButtonInsetShadowColor);
 }
