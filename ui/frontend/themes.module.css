@@ -2,38 +2,55 @@
 }
 
 .dark {
-  --borderColor: #000;
-  --configCheckedColor: #000;
-  --configHoverBgColor: #f0f;
-  --configLabelColor: #fcf;
-  --editorBorderColor: #000;
-  --headerMainBorderColor: #99f;
-  --headerTintColor: #0ff;
-  --helpBgColor: #000;
-  --helpCodeBgColor: #111;
-  --helpHeaderLinkColor: white;
-  --helpLoadExampleBgColor: rgba(0, 0, 0, 0.8);
-  --menuAsideColor: #000;
-  --menuCodeBgColor: #000;
-  --notificationBgColor: #000;
-  --notificationBorderColor: #f0f;
-  --notificationCloseBgColor: #ff0;
-  --outputBackgroundTabColor: #0f0;
-  --outputCurrentTabColor: #f00;
-  --segmentedButtonActiveBorderBottomColor: #d6d;
-  --segmentedButtonActiveBorderTopColor: #bab;
-  --segmentedButtonBorderColor: #6f4;
-  --segmentedButtonBuildBgColor: #6f6;
-  --segmentedButtonBuildColor: #ccc;
-  --segmentedButtonBuildHoverBgColor: ##0cf;
-  --segmentedButtonColor: #66f;
-  --segmentedButtonDarkBgColor2: #fcc;
-  --segmentedButtonDarkBgColor: #f6f;
-  --segmentedButtonHoverColor: #6ff;
-  --segmentedButtonLightBgColor2: #f3f;
-  --segmentedButtonLightBgColor: #ff6;
-  --popButtonColor: #ddd;
-  --popButtonBgColor: #111;
-  --popButtonVerticalBorderColor: #050505;
-  --popButtonBottomBorderColor: #0f0f00;
+  --borderColor: hsl(0, 0%, 50%);
+  /* --configCheckedColor: #fff; */
+  /* --configHoverBgColor: hsla(208, 100%, 43%, 0.1); */
+  /* --configLabelColor: #777; */
+  --editorBorderColor: hsl(0, 0%, 25%);
+  --headerMainBorderColor: hsl(0, 0%, 30%);
+  /* --headerTintColor: #428bca; */
+  /* --helpBgColor: #fff; */
+  /* --helpCodeBgColor: #EEE; */
+  /* --helpHeaderLinkColor: black; */
+  /* --helpLoadExampleBgColor: rgba(255, 255, 255, 0.8); */
+  /* --linkColor: #0000EE; */
+  /* --menuAsideColor: #888; */
+  --menuCodeBgColor: hsl(0, 0%, 25%);
+  /* --notificationBgColor: #FFF; */
+  /* --notificationBorderColor: #428bca; */
+  /* --notificationCloseBgColor: #e1e1db; */
+  --outputBackgroundTabColor: hsl(0, 0%, 15%);
+  --outputCurrentTabColor: hsl(0, 0%, 25%);
+  --pageBgColor: hsl(0, 0%, 30%);
+  --pageColor: hsl(0, 0%, 75%);
+  --popButtonBgColor: hsl(0, 0%, 40%);
+  --popButtonBottomBorderColor: hsl(0, 0%, 40%);
+  --popButtonColor: var(--pageColor);
+  --popButtonVerticalBorderColor:  hsl(0, 0%, 30%);
+
+  --popButtonInsetShadowColor: hsl(0, 0%, 50%);
+  --popButtonShadowColor: hsl(0, 0%, 75%);
+
+  /* --rustErrorsErrorColor: #bf1b1b; */
+  /* --rustErrorsWarningColor: #f79a06; */
+  --segmentedButtonActiveBorderBottomColor: hsl(0, 0%, 35%);
+  --segmentedButtonActiveBorderTopColor: hsl(0, 0%, 45%);
+  --segmentedButtonBorderColor: /* hsl(15, 66.7%, 68%) */ green;
+  /* --segmentedButtonBuildBgColor: #AA4422; */
+  /* --segmentedButtonBuildColor: white; */
+  /* --segmentedButtonBuildHoverBgColor: #80331a; */
+  --segmentedButtonColor: var(--pageColor);
+  --segmentedButtonDarkBgColor2: hsl(0, 0%, 25%);
+  --segmentedButtonDarkBgColor: hsl(0, 0%, 30%);
+  --segmentedButtonHoverColor: var(--pageColor);
+  --segmentedButtonLightBgColor2: hsl(0, 0%, 15%);
+  --segmentedButtonLightBgColor: hsl(0, 0%, 20%);
 }
+
+/*
+ * "light" and "dark" colors are misnamed (active / inactive?)
+ * maybe add separate colors for neutral button gradient
+ * editor vs border color?
+ * simple editor colors
+ * primary font color (button?)
+ */

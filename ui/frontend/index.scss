@@ -46,6 +46,8 @@
   --segmentedButtonHoverColor: #333;
   --segmentedButtonLightBgColor2: #f3f3f3;
   --segmentedButtonLightBgColor: #fff;
+
+  --pageColor: #000000;
 }
 
 // Modify normalized styles
@@ -77,6 +79,7 @@ html {
 
 body {
   background-color: var(--pageBgColor);
+  color: var(--pageColor);
   padding: 0 1em;
   font-family: var(--pageFont);
 }
