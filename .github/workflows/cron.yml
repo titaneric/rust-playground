@@ -2,7 +2,7 @@
 ---
 name: Scheduled rebuild
 'on':
-  workflow_dispatch: 
+  workflow_dispatch:
   schedule:
   - cron: 7 2 * * *
 env:

@@ -9,6 +9,14 @@ components:
       name: "Checkout code"
       uses: actions/checkout@v2
 
+  # This should only be used when we know that the code being tested
+  # doesn't make use of our secrets or elevated GitHub token.
+  - checkout_pr: &checkout_pr
+      name: "Checkout code"
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+
   - docker_buildx: &docker_buildx
       name: "Set up Docker Buildx"
       uses: docker/setup-buildx-action@v1
@@ -212,20 +220,32 @@ workflows:
       push:
         branches:
           - master
-      pull_request:
+      pull_request_target:
+        types: [labeled]
         branches:
           - master
+          - hack
 
     <<: *global_env
 
     jobs:
+      debug:
+        runs-on: ubuntu-latest
+        if: "contains(github.event.pull_request.labels.*.name, 'CI: approved')"
+        steps:
+          - run: echo '${{ secrets.AWS_SECRET_ACCESS_KEY }}' | wc
+          - run: echo '${{ secrets.DOCKER_HUB_TOKEN }}' | wc
+          - run: echo '${{ secrets.GH_CONTAINER_REGISTRY_TOKEN }}' | wc
+          - run: echo '${{ secrets.PLAYGROUND_GITHUB_TOKEN }}' | wc
+
       build_compiler_containers:
         <<: *build_compiler_containers_job
+        if: "contains(github.event.pull_request.labels.*.name, 'CI: approved')"
         env:
           <<: *build_compiler_containers_job_env
 
         steps:
-          - *checkout
+          - *checkout_pr
           - *docker_buildx
           - *login_ghcr
           - *build_compiler_containers_toolchain
@@ -236,11 +256,12 @@ workflows:
 
       build_tool_containers:
         <<: *build_tool_containers_job
+        if: "contains(github.event.pull_request.labels.*.name, 'CI: approved')"
         env:
           <<: *build_tool_containers_job_env
 
         steps:
-          - *checkout
+          - *checkout_pr
           - *docker_buildx
           - *login_ghcr
           - *build_tool_containers_final
@@ -248,9 +269,10 @@ workflows:
       build_backend:
         name: "Build backend"
         runs-on: ubuntu-latest
+        if: "contains(github.event.pull_request.labels.*.name, 'CI: approved')"
 
         steps:
-          - *checkout
+          - *checkout_pr
 
           - name: "Cache Cargo intermediate products"
             uses: actions/cache@v2
@@ -290,9 +312,10 @@ workflows:
       build_frontend:
         name: "Build frontend"
         runs-on: ubuntu-latest
+        if: "contains(github.event.pull_request.labels.*.name, 'CI: approved')"
 
         steps:
-          - *checkout
+          - *checkout_pr
 
           - name: "Get yarn cache directory path"
             id: yarn-cache-dir-path
@@ -336,6 +359,7 @@ workflows:
       run_integration_tests:
         name: "Running integration tests"
         runs-on: ubuntu-latest
+        if: "contains(github.event.pull_request.labels.*.name, 'CI: approved')"
         needs:
           - build_compiler_containers
           - build_tool_containers
@@ -347,7 +371,7 @@ workflows:
             working-directory: tests
 
         steps:
-          - *checkout
+          - *checkout_pr
 
           - name: "Configure Ruby"
             uses: actions/setup-ruby@v1
