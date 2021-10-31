@@ -1,3 +1,4 @@
+
 import fetch from 'isomorphic-fetch';
 import { ThunkAction as ReduxThunkAction } from 'redux-thunk';
 import url from 'url';
@@ -125,6 +126,8 @@ export enum ActionType {
   RequestVersionsLoad = 'REQUEST_VERSIONS_LOAD',
   VersionsLoadSucceeded = 'VERSIONS_LOAD_SUCCEEDED',
   NotificationSeen = 'NOTIFICATION_SEEN',
+  BrowserWidthChanged = 'BROWSER_WIDTH_CHANGED',
+  SplitRatioChanged = 'SPLIT_RATIO_CHANGED',
 }
 
 const setPage = (page: Page) =>
@@ -166,8 +169,15 @@ export const changeChannel = (channel: Channel) =>
 export const changeMode = (mode: Mode) =>
   createAction(ActionType.ChangeMode, { mode });
 
-export const changeEdition = (edition: Edition) =>
+const changeEditionRaw = (edition: Edition) =>
   createAction(ActionType.ChangeEdition, { edition });
+
+export const changeEdition = (edition: Edition): ThunkAction => dispatch => {
+  if (edition == Edition.Rust2021) {
+    dispatch(changeChannel(Channel.Nightly));
+  }
+  dispatch(changeEditionRaw(edition));
+}
 
 export const changeBacktrace = (backtrace: Backtrace) =>
   createAction(ActionType.ChangeBacktrace, { backtrace });
@@ -745,6 +755,12 @@ const notificationSeen = (notification: Notification) =>
 
 export const seenRustSurvey2020 = () => notificationSeen(Notification.RustSurvey2020);
 
+export const browserWidthChanged = (isSmall: boolean) =>
+  createAction(ActionType.BrowserWidthChanged, { isSmall });
+
+export const splitRatioChanged = () =>
+  createAction(ActionType.SplitRatioChanged);
+
 function parseChannel(s: string): Channel | null {
   switch (s) {
     case 'stable':
@@ -775,6 +791,8 @@ function parseEdition(s: string): Edition | null {
       return Edition.Rust2015;
     case '2018':
       return Edition.Rust2018;
+    case '2021':
+      return Edition.Rust2021;
     default:
       return null;
   }
@@ -841,7 +859,7 @@ export type Action =
   | ReturnType<typeof changeBacktrace>
   | ReturnType<typeof changeChannel>
   | ReturnType<typeof changeDemangleAssembly>
-  | ReturnType<typeof changeEdition>
+  | ReturnType<typeof changeEditionRaw>
   | ReturnType<typeof changeEditor>
   | ReturnType<typeof changeFocus>
   | ReturnType<typeof changeKeybinding>
@@ -900,4 +918,6 @@ export type Action =
   | ReturnType<typeof requestVersionsLoad>
   | ReturnType<typeof receiveVersionsLoadSuccess>
   | ReturnType<typeof notificationSeen>
+  | ReturnType<typeof browserWidthChanged>
+  | ReturnType<typeof splitRatioChanged>
   ;

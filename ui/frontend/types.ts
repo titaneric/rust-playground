@@ -97,6 +97,7 @@ export enum Mode {
 export enum Edition {
   Rust2015 = '2015',
   Rust2018 = '2018',
+  Rust2021 = '2021',
 }
 
 export enum Backtrace {
@@ -122,3 +123,5 @@ export enum Focus {
 export enum Notification {
   RustSurvey2020 = 'rust-survey-2020',
 }
+
+export type AceResizeKey = [Focus, number];

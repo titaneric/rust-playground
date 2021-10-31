@@ -435,8 +435,7 @@ impl Sandbox {
             "cargo",
             "rustc",
             "--",
-            "-Zunstable-options",
-            "--pretty=expanded",
+            "-Zunpretty=expanded",
         ]);
 
         log::debug!("Macro expansion command is {:?}", cmd);
@@ -488,8 +487,8 @@ fn basic_secure_docker_command() -> Command {
         "--security-opt=no-new-privileges",
         "--workdir", "/playground",
         "--net", "none",
-        "--memory", "256m",
-        "--memory-swap", "320m",
+        "--memory", "512m",
+        "--memory-swap", "640m",
         "--env", format!("PLAYGROUND_TIMEOUT={}", DOCKER_PROCESS_TIMEOUT_SOFT.as_secs()),
     );
 
@@ -660,7 +659,8 @@ pub enum ProcessAssembly {
     Filter,
     Raw,
 }
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, strum::IntoStaticStr)]
 pub enum CompileTarget {
     Assembly(AssemblyFlavor, DemangleAssembly, ProcessAssembly),
     LlvmIr,
@@ -699,7 +699,7 @@ impl fmt::Display for CompileTarget {
     }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, strum::IntoStaticStr)]
 pub enum Channel {
     Stable,
     Beta,
@@ -720,16 +720,17 @@ impl Channel {
     }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, strum::IntoStaticStr)]
 pub enum Mode {
     Debug,
     Release,
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, strum::IntoStaticStr)]
 pub enum Edition {
     Rust2015,
     Rust2018,
+    Rust2021, // TODO - add parallel tests for 2021
 }
 
 impl Edition {
@@ -739,11 +740,12 @@ impl Edition {
         match *self {
             Rust2015 => "2015",
             Rust2018 => "2018",
+            Rust2021 => "2021",
         }
     }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, strum::IntoStaticStr)]
 pub enum CrateType {
     Binary,
     Library(LibraryType),
@@ -760,7 +762,7 @@ impl CrateType {
     }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, strum::IntoStaticStr)]
 pub enum LibraryType {
     Lib,
     Dylib,
@@ -800,6 +802,10 @@ impl DockerCommandExt for Command {
 
     fn apply_edition(&mut self, req: impl EditionRequest) {
         if let Some(edition) = req.edition() {
+            if edition == Edition::Rust2021 {
+                self.args(&["--env", &format!("PLAYGROUND_FEATURE_EDITION2021=true")]);
+            }
+
             self.args(&["--env", &format!("PLAYGROUND_EDITION={}", edition.cargo_ident())]);
         }
     }
