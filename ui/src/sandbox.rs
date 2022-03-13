@@ -122,6 +122,11 @@ impl Sandbox {
         self.runtime.block_on(self.sandbox.execute(req))
     }
 
+    // Greatly inspired from https://gitlab.com/strwrite/seed-playground
+    pub fn wasm_pack(&self, req: &WasmPackRequest) -> Result<WasmPackResponse> {
+        self.runtime.block_on(self.sandbox.wasm_pack(req))
+    }
+
     pub fn format(&self, req: &FormatRequest) -> Result<FormatResponse> {
         self.runtime.block_on(self.sandbox.format(req))
     }
@@ -215,6 +220,7 @@ fn build_execution_command(
     let mut cmd = vec!["cargo"];
 
     match (target, req.crate_type(), tests) {
+        (Some(WasmPack), _, _) => cmd.push("pack"),
         (Some(Wasm), _, _) => cmd.push("wasm"),
         (Some(_), _, _) => cmd.push("rustc"),
         (_, _, true) => cmd.push("test"),
@@ -257,6 +263,7 @@ fn build_execution_command(
             Mir => cmd.push("--emit=mir"),
             Hir => cmd.push("-Zunpretty=hir"),
             Wasm => { /* handled by cargo-wasm wrapper */ }
+            WasmPack => { /* handled by cargo-wasmpack wrapper */ }
         }
     }
 
@@ -279,7 +286,6 @@ fn set_execution_environment(
     cmd.apply_edition(&req);
     cmd.apply_backtrace(&req);
 }
-
 pub mod fut {
     use snafu::prelude::*;
     use std::{
@@ -296,16 +302,16 @@ pub mod fut {
         vec_to_str, wide_open_permissions, BacktraceRequest, Channel, ClippyRequest,
         ClippyResponse, CompileRequest, CompileResponse, CompileTarget,
         CompilerExecutionTimedOutSnafu, CrateInformation, CrateInformationInner, CrateType,
-        CrateTypeRequest, DemangleAssembly, DockerCommandExt, EditionRequest, ExecuteRequest,
-        ExecuteResponse, FormatRequest, FormatResponse, MacroExpansionRequest,
-        MacroExpansionResponse, MiriRequest, MiriResponse, MissingCompilerIdSnafu, Mode,
-        OutputMissingSnafu, ProcessAssembly, Result, UnableToCreateOutputDirSnafu,
-        UnableToCreateSourceFileSnafu, UnableToCreateTempDirSnafu,
+        CrateTypeRequest, DemangleAssembly, DockerCommandExt, Edition, EditionRequest,
+        ExecuteRequest, ExecuteResponse, FormatRequest, FormatResponse, LibraryType,
+        MacroExpansionRequest, MacroExpansionResponse, MiriRequest, MiriResponse,
+        MissingCompilerIdSnafu, Mode, OutputMissingSnafu, ProcessAssembly, Result,
+        UnableToCreateOutputDirSnafu, UnableToCreateSourceFileSnafu, UnableToCreateTempDirSnafu,
         UnableToGetOutputFromCompilerSnafu, UnableToParseCrateInformationSnafu,
         UnableToReadOutputSnafu, UnableToRemoveCompilerSnafu, UnableToSetOutputPermissionsSnafu,
         UnableToSetSourcePermissionsSnafu, UnableToStartCompilerSnafu,
         UnableToWaitForCompilerSnafu, Version, VersionDateMissingSnafu, VersionHashMissingSnafu,
-        VersionReleaseMissingSnafu, DOCKER_PROCESS_TIMEOUT_HARD,
+        VersionReleaseMissingSnafu, WasmPackRequest, WasmPackResponse, DOCKER_PROCESS_TIMEOUT_HARD,
     };
 
     pub struct Sandbox {
@@ -338,7 +344,27 @@ pub mod fut {
                 output_dir,
             })
         }
+        // The compiler writes the file to a name like
+        // `compilation-3b75174cac3d47fb.ll`, so we just find the
+        // first with the right extension.
+        async fn path_to_first_file_with_extension(
+            &self,
+            dir: &Path,
+            extension: &OsStr,
+        ) -> Result<Option<PathBuf>> {
+            let mut files = fs::read_dir(dir).await.context(UnableToReadOutputSnafu)?;
 
+            while let Some(entry) = files.next_entry().await.transpose() {
+                if let Ok(entry) = entry {
+                    let path = entry.path();
+                    if path.extension() == Some(extension) {
+                        return Ok(Some(path));
+                    }
+                }
+            }
+
+            Ok(None)
+        }
         pub async fn compile(&self, req: &CompileRequest) -> Result<CompileResponse> {
             self.write_source_code(&req.code).await?;
 
@@ -346,29 +372,9 @@ pub mod fut {
 
             let output = run_command_with_timeout(command).await?;
 
-            // The compiler writes the file to a name like
-            // `compilation-3b75174cac3d47fb.ll`, so we just find the
-            // first with the right extension.
-            async fn path_to_first_file_with_extension(
-                dir: &Path,
-                extension: &OsStr,
-            ) -> Result<Option<PathBuf>> {
-                let mut files = fs::read_dir(dir).await.context(UnableToReadOutputSnafu)?;
-
-                while let Some(entry) = files.next_entry().await.transpose() {
-                    if let Ok(entry) = entry {
-                        let path = entry.path();
-                        if path.extension() == Some(extension) {
-                            return Ok(Some(path));
-                        }
-                    }
-                }
-
-                Ok(None)
-            }
-
-            let file =
-                path_to_first_file_with_extension(&self.output_dir, req.target.extension()).await?;
+            let file = self
+                .path_to_first_file_with_extension(&self.output_dir, req.target.extension())
+                .await?;
             let stdout = vec_to_str(output.stdout)?;
             let mut stderr = vec_to_str(output.stderr)?;
 
@@ -422,7 +428,36 @@ pub mod fut {
                 stderr: vec_to_str(output.stderr)?,
             })
         }
+        // Greatly inspired from https://gitlab.com/strwrite/seed-playground
+        pub async fn wasm_pack(&self, req: &WasmPackRequest) -> Result<WasmPackResponse> {
+            use CompileTarget::*;
+            use CrateType::*;
 
+            let compile_req = CompileRequest {
+                backtrace: false,
+                channel: Channel::WasmPack,
+                code: req.code.clone(),
+                crate_type: Library(LibraryType::Cdylib),
+                edition: Some(Edition::Rust2018),
+                mode: Mode::Debug,
+                target: WasmPack,
+                tests: false,
+            };
+            let res = self.compile(&compile_req).await?;
+            let js_file = self.path_to_first_file_with_extension(&self.output_dir, OsStr::new("js")).await?;
+            let js_code = match js_file {
+                Some(file) => read(&file).await?.unwrap_or_else(String::new),
+                None => String::new(), // TODO: return proper error?
+            };
+
+            Ok(WasmPackResponse {
+                success: res.success,
+                stdout: res.stdout,
+                stderr: res.stderr,
+                wasm_bg: res.code,
+                wasm_js: js_code,
+            })
+        }
         pub async fn format(&self, req: &FormatRequest) -> Result<FormatResponse> {
             self.write_source_code(&req.code).await?;
             let command = self.format_command(req);
@@ -802,6 +837,7 @@ pub enum CompileTarget {
     Mir,
     Hir,
     Wasm,
+    WasmPack,
 }
 
 impl CompileTarget {
@@ -812,6 +848,7 @@ impl CompileTarget {
             CompileTarget::Mir => "mir",
             CompileTarget::Hir => "hir",
             CompileTarget::Wasm => "wat",
+            CompileTarget::WasmPack => "wasm",
         };
         OsStr::new(ext)
     }
@@ -827,6 +864,7 @@ impl fmt::Display for CompileTarget {
             Mir => "Rust MIR".fmt(f),
             Hir => "Rust HIR".fmt(f),
             Wasm => "WebAssembly".fmt(f),
+            WasmPack => "WasmPack".fmt(f),
         }
     }
 }
@@ -836,6 +874,7 @@ pub enum Channel {
     Stable,
     Beta,
     Nightly,
+    WasmPack,
 }
 
 impl Channel {
@@ -846,6 +885,7 @@ impl Channel {
             Stable => "rust-stable",
             Beta => "rust-beta",
             Nightly => "rust-nightly",
+            WasmPack => "rust-wasm-pack",
         }
     }
 }
@@ -1137,6 +1177,37 @@ pub struct MacroExpansionResponse {
     pub stderr: String,
 }
 
+#[derive(Debug, Clone)]
+pub struct WasmPackRequest {
+    pub code: String,
+    pub crate_type: CrateType,
+    pub output_name: String,
+}
+
+impl Default for WasmPackRequest {
+    fn default() -> Self {
+        WasmPackRequest {
+            code: String::from(""),
+            crate_type: CrateType::Library(LibraryType::Rlib),
+            output_name: "wasm".to_string(),
+        }
+    }
+}
+
+impl CrateTypeRequest for WasmPackRequest {
+    fn crate_type(&self) -> CrateType {
+        self.crate_type
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct WasmPackResponse {
+    pub wasm_js: String,
+    pub wasm_bg: String,
+    pub success: bool,
+    pub stdout: String,
+    pub stderr: String,
+}
 #[cfg(test)]
 mod test {
     use super::*;

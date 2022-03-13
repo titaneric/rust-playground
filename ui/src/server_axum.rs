@@ -11,7 +11,8 @@ use crate::{
     FormattingSnafu, GhToken, GistCreationSnafu, GistLoadingSnafu, InterpretingSnafu, LintingSnafu,
     MacroExpansionRequest, MacroExpansionResponse, MetaCratesResponse, MetaGistCreateRequest,
     MetaGistResponse, MetaVersionResponse, MetricsToken, MiriRequest, MiriResponse, Result,
-    SandboxCreationSnafu, ONE_HOUR, SANDBOX_CACHE_TIME_TO_LIVE,
+    SandboxCreationSnafu, WasmPackRequest, WasmPackResponse, WasmPackSnafu, ONE_HOUR,
+    SANDBOX_CACHE_TIME_TO_LIVE,
 };
 use async_trait::async_trait;
 use axum::{
@@ -57,6 +58,7 @@ pub(crate) async fn serve(config: Config) {
         .route("/evaluate.json", post(evaluate))
         .route("/compile", post(compile))
         .route("/execute", post(execute))
+        .route("/wasm-pack", post(wasm_pack))
         .route("/format", post(format))
         .route("/clippy", post(clippy))
         .route("/miri", post(miri))
@@ -157,6 +159,16 @@ async fn execute(Json(req): Json<ExecuteRequest>) -> Result<Json<ExecuteResponse
         req,
         |sb, req| async move { sb.execute(req).await }.boxed(),
         ExecutionSnafu,
+    )
+    .await
+    .map(Json)
+}
+
+async fn wasm_pack(Json(req): Json<WasmPackRequest>) -> Result<Json<WasmPackResponse>> {
+    with_sandbox(
+        req,
+        |sb, req| async move { sb.wasm_pack(req).await }.boxed(),
+        WasmPackSnafu,
     )
     .await
     .map(Json)

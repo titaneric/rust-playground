@@ -161,6 +161,7 @@ mod metrics {
         Compile,
         Execute,
         Format,
+        WasmPack,
         Miri,
         Clippy,
         MacroExpansion,
@@ -322,6 +323,27 @@ mod metrics {
             }
         }
     }
+    impl GenerateLabels for sandbox::WasmPackRequest {
+        fn generate_labels(&self, outcome: Outcome) -> Labels {
+            let Self {
+                crate_type,
+                output_name: _,
+                code: _,
+            } = *self;
+
+            Labels {
+                endpoint: Endpoint::WasmPack,
+                channel: None,
+                mode: None,
+                edition: None,
+                tests: None,
+                backtrace: None,
+                outcome,
+                target: None,
+                crate_type: Some(crate_type),
+            }
+        }
+    }
 
     impl GenerateLabels for sandbox::FormatRequest {
         fn generate_labels(&self, outcome: Outcome) -> Labels {
@@ -440,6 +462,12 @@ mod metrics {
     }
 
     impl SuccessDetails for sandbox::CompileResponse {
+        fn success_details(&self) -> Outcome {
+            common_success_details(self.success, &self.stderr)
+        }
+    }
+
+    impl SuccessDetails for sandbox::WasmPackResponse {
         fn success_details(&self) -> Outcome {
             common_success_details(self.success, &self.stderr)
         }
@@ -666,6 +694,8 @@ pub enum Error {
     Execution { source: sandbox::Error },
     #[snafu(display("Evaluation operation failed: {}", source))]
     Evaluation { source: sandbox::Error },
+    #[snafu(display("wasm-pack operation failed: {}", source))]
+    WasmPack { source: sandbox::Error },
     #[snafu(display("Linting operation failed: {}", source))]
     Linting { source: sandbox::Error },
     #[snafu(display("Expansion operation failed: {}", source))]
@@ -871,6 +901,20 @@ struct EvaluateRequest {
 struct EvaluateResponse {
     result: String,
     error: Option<String>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+struct WasmPackRequest {
+    code: String
+}
+
+#[derive(Debug, Clone, Serialize)]
+struct WasmPackResponse {
+    success: bool,
+    wasm_js: String,
+    wasm_bg: String,
+    stdout: String,
+    stderr: String,
 }
 
 impl TryFrom<CompileRequest> for sandbox::CompileRequest {
@@ -1116,6 +1160,29 @@ impl From<sandbox::ExecuteResponse> for EvaluateResponse {
                 result: result.clone(),
                 error: Some(result),
             }
+        }
+    }
+}
+
+impl TryFrom<WasmPackRequest> for sandbox::WasmPackRequest {
+    type Error = Error;
+
+    fn try_from(me: WasmPackRequest) -> Result<Self> {
+        Ok(sandbox::WasmPackRequest {
+            code: me.code,
+            ..sandbox::WasmPackRequest::default()
+        })
+    }
+}
+
+impl From<sandbox::WasmPackResponse> for WasmPackResponse {
+    fn from(me: sandbox::WasmPackResponse) -> Self {
+        WasmPackResponse {
+            success: me.success,
+            wasm_bg: me.wasm_bg,
+            wasm_js: me.wasm_js,
+            stdout: me.stdout,
+            stderr: me.stderr,
         }
     }
 }

@@ -5,6 +5,7 @@ use crate::{
     CachingSnafu, ClippyRequest, ClippyResponse, CompilationSnafu, CompileRequest, CompileResponse,
     Config, DeserializationSnafu, Error, ErrorJson, EvaluateRequest, EvaluateResponse,
     EvaluationSnafu, ExecuteRequest, ExecuteResponse, ExecutionSnafu, ExpansionSnafu,
+    WasmPackRequest, WasmPackResponse, WasmPackSnafu,
     FormatRequest, FormatResponse, FormattingSnafu, GhToken, InterpretingSnafu, LintingSnafu,
     MacroExpansionRequest, MacroExpansionResponse, MetaCratesResponse, MetaGistCreateRequest,
     MetaGistResponse, MetaVersionResponse, MetricsToken, MiriRequest, MiriResponse, Result,
@@ -57,6 +58,7 @@ pub(crate) fn serve(config: Config) {
     mount.mount("/", files);
     mount.mount("/compile", compile);
     mount.mount("/execute", execute);
+    mount.mount("/wasm-pack", wasm_pack);
     mount.mount("/format", format);
     mount.mount("/clippy", clippy);
     mount.mount("/miri", miri);
@@ -275,6 +277,15 @@ fn evaluate(req: &mut Request<'_, '_>) -> IronResult<Response> {
         })
         .map(EvaluateResponse::from)
         .context(EvaluationSnafu)
+    })
+}
+fn wasm_pack(req: &mut Request<'_, '_>) -> IronResult<Response> {
+    with_sandbox(req, |sandbox, req: WasmPackRequest| {
+        let req = req.try_into()?;
+        sandbox
+            .wasm_pack(&req)
+            .map(WasmPackResponse::from)
+            .context(WasmPackSnafu)
     })
 }
 

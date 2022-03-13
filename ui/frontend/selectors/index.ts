@@ -75,6 +75,7 @@ const LABELS: { [index in PrimaryActionCore]: string } = {
   [PrimaryActionCore.Mir]: 'Show MIR',
   [PrimaryActionCore.Test]: 'Test',
   [PrimaryActionCore.Wasm]: 'Show WASM',
+  [PrimaryActionCore.WasmPack]: 'Show WASM PACK',
 };
 
 export const getExecutionLabel = createSelector(primaryActionSelector, primaryAction => LABELS[primaryAction]);
@@ -108,6 +109,8 @@ export const isNightlyChannel = (state: State) => (
 );
 export const isWasmAvailable = isNightlyChannel;
 export const isHirAvailable = isNightlyChannel;
+export const isRust2021Available = isNightlyChannel;
+export const isWasmPackAvailable = isNightlyChannel;
 
 export const getModeLabel = (state: State) => {
   const { configuration: { mode } } = state;
@@ -149,6 +152,7 @@ const getOutputs = (state: State) => [
   state.output.miri,
   state.output.macroExpansion,
   state.output.wasm,
+  state.output.wasmPack,
 ];
 
 export const getSomethingToShow = createSelector(
